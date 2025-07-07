@@ -1,3 +1,6 @@
+// Ensure DOM is loaded before running scripts
+document.addEventListener('DOMContentLoaded', function() {
+
 // Theme Toggle Functionality
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
@@ -286,52 +289,9 @@ const createScrollProgress = () => {
 
 createScrollProgress();
 
+});
+
 // Add loading animation
 window.addEventListener('load', () => {
   document.body.classList.add('loaded');
 });
-
-// Add CSS for loading state
-const loadingStyles = `
-  body:not(.loaded) {
-    overflow: hidden;
-  }
-  
-  body:not(.loaded)::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bg-primary);
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  body:not(.loaded)::after {
-    content: '';
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    border: 3px solid var(--border-color);
-    border-top: 3px solid var(--primary-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    z-index: 10001;
-  }
-  
-  @keyframes spin {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-  }
-`;
-
-const styleSheet = document.createElement('style');
-styleSheet.textContent = loadingStyles;
-document.head.appendChild(styleSheet);
