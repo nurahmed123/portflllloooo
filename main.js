@@ -145,7 +145,7 @@ const statsObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.5 });
 
-const statsSection = document.querySelector('.stats');
+const statsSection = document.querySelector('.hero-stats');
 if (statsSection) {
   statsObserver.observe(statsSection);
 }
@@ -288,6 +288,90 @@ const createScrollProgress = () => {
 };
 
 createScrollProgress();
+
+// Animate skill progress bars when they come into view
+const skillObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const progressBars = entry.target.querySelectorAll('.skill-progress');
+      progressBars.forEach(bar => {
+        const width = bar.getAttribute('data-width');
+        setTimeout(() => {
+          bar.style.width = width;
+        }, 300);
+      });
+      skillObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.skill-category').forEach(category => {
+  skillObserver.observe(category);
+});
+
+// Add stagger animation to achievement cards
+const achievementObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const cards = entry.target.querySelectorAll('.achievement-card');
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.add('fade-in', 'visible');
+        }, index * 100);
+      });
+      achievementObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+
+const achievementsGrid = document.querySelector('.achievements-grid');
+if (achievementsGrid) {
+  achievementObserver.observe(achievementsGrid);
+}
+
+// Add stagger animation to feature cards
+const featureObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const cards = entry.target.querySelectorAll('.feature-card');
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.add('fade-in', 'visible');
+        }, index * 150);
+      });
+      featureObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+
+const featuresGrid = document.querySelector('.features-grid');
+if (featuresGrid) {
+  featureObserver.observe(featuresGrid);
+}
+
+// Add floating animation to tech icons
+const techIcons = document.querySelectorAll('.tech-icon');
+techIcons.forEach((icon, index) => {
+  icon.style.animationDelay = `${index * 0.5}s`;
+});
+
+// Enhanced mobile menu animation
+const navContainer = document.querySelector('.nav-container');
+let lastScrollTop = 0;
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+  if (scrollTop > lastScrollTop && scrollTop > 100) {
+    // Scrolling down
+    navContainer.style.transform = 'translateY(-100%)';
+  } else {
+    // Scrolling up
+    navContainer.style.transform = 'translateY(0)';
+  }
+  
+  lastScrollTop = scrollTop;
+});
 
 });
 
